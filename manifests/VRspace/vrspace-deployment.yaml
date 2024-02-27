@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    app: vrspace
+  labels:
+    app: vrspace
+  name: vrspace
+  namespace: vrspace
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vrspace
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        app: vrspace
+      labels:
+        app: vrspace
+    spec:
+      serviceAccountName: vrspace
+      containers:
+      - image: image-registry.openshift-image-registry.svc:5000/vrspace/vrspace:latest
+        imagePullPolicy: IfNotPresent
+        name: vrspace
+        env:
+        - name: OPENVIDU_SERVER_URL
+          value: ${OPENVIDU_SERVER_URL}
+        - name: OPENVIDU_SERVER_SECRET
+          value: ${OPENVIDU_SERVER_SECRET}
+        - name: VRSPACE_SERVER_URL
+          value: ${VRSPACE_SERVER_URL}
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service 
+metadata:
+  annotations:
+    app: vrspace 
+  labels:
+    app: vrspace
+  name: vrspace
+  namespace: vrspace
+spec:
+  ports:
+  - name: http
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: vrspace
+  type: ClusterIP
