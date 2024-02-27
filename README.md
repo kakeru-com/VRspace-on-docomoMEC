@@ -27,11 +27,17 @@ kubectl create -f deployment.yaml
 ビデオ会議や音声チャットなどを有効にするためにはOpenViduの構築が必要です。 まず、以下の環境変数をセットします。
 
 export OPENVIDU_USERNAME=<任意のアカウント名>
+
 export OPENVIDU_SERVER_SECRET=<任意のパスワード>
+
 kubectl create namespace openvidu
+
 kubectl create sa openvidu -n openvidu
+
 kubectl create clusterrolebinding openvidu-cluster-admin --clusterrole=cluster-admin --serviceaccount=openvidu:openvidu
+
 kubectl apply -f manifest/openvidu/redis-deployment.yaml -n openvidu
+
 kubectl apply -f manifest/openvidu/coturn-service.yaml -n openvidu
 
 
