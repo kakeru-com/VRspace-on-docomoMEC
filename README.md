@@ -1,18 +1,14 @@
-# VRspace-on-docomoMEC
-
-OpenShiftでVRspaceとOpenVidu
-
-オープンソースのメタバースアプリケーションであるvrspaceをOpenShiftへdeployします。 vrspaceの詳細はこちらのRedmineをご参照ください。
+# VRspace
 
 環境
 
 
 # 1. LET's Encrypt
 
-wget https://raw.githubusercontent.com/tnozicka/openshift-acme/master/deploy/cluster-wide/clusterrole.yaml
-wget https://raw.githubusercontent.com/tnozicka/openshift-acme/master/deploy/cluster-wide/serviceaccount.yaml
-wget https://raw.githubusercontent.com/tnozicka/openshift-acme/master/deploy/cluster-wide/issuer-letsencrypt-live.yaml
-wget https://raw.githubusercontent.com/tnozicka/openshift-acme/master/deploy/cluster-wide/deployment.yaml
+## wget https://raw.githubusercontent.com/tnozicka/openshift-acme/master/deploy/cluster-wide/clusterrole.yaml
+## wget https://raw.githubusercontent.com/tnozicka/openshift-acme/master/deploy/cluster-wide/serviceaccount.yaml
+## wget https://raw.githubusercontent.com/tnozicka/openshift-acme/master/deploy/cluster-wide/issuer-letsencrypt-live.yaml
+## wget https://raw.githubusercontent.com/tnozicka/openshift-acme/master/deploy/cluster-wide/deployment.yaml
 
 kubectl create -f clusterrole.yaml
 kubectl create -f serviceaccount.yaml
