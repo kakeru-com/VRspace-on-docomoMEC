@@ -3,24 +3,25 @@ kind: Service
 metadata:
   annotations:
     app: coturn
-    # Azure を使用している場合は、以下を削除してください
-    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
-    service.beta.kubernetes.io/aws-load-balancer-scheme: "internet-facing"
   labels:
     io.openvidu.service: coturn
   name: coturn
 spec:
   type: LoadBalancer 
   ports:
-  - name: udp-3478
-    port: 3478
-    targetPort: udp-3478
-    protocol: UDP
-  {{- range seq 0 10}}
-  - name: udp-{{add 57001 .}}
-    port: {{add 57001 .}}
-    protocol: UDP
-    targetPort: {{add 57001 .}}
-  {{- end }}
+    - name: udp-3478
+      port: 3478
+      targetPort: udp-3478
+      protocol: UDP
+    - name: udp-57001
+      port: 57001
+      protocol: UDP
+      targetPort: 57001
+    - name: udp-57002
+      port: 57002
+      protocol: UDP
+      targetPort: 57002
+    # 必要なポートの範囲を定義する
+    # ...
   selector:
     io.openvidu.service: coturn
