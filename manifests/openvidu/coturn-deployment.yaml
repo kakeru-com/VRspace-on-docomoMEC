@@ -11,13 +11,15 @@ spec:
   selector:
     matchLabels:
       io.openvidu.service: coturn
+  strategy: {}
   template:
     metadata:
       annotations:
-        app: coturn
+        app: conturn
       labels:
         io.openvidu.service: coturn
     spec:
+      serviceAccount: openvidu 
       serviceAccountName: openvidu
       containers:
         - args:
@@ -38,18 +40,46 @@ spec:
             - name: DB_NAME
               value: "0"
             - name: DB_PASSWORD
-              value: ${OPENVIDU_SERVER_SECRET}
+              value: ${OPENVIDU_SERVER_SECRET} 
             - name: REDIS_IP
-              value: redis
+              value: redis 
           image: openvidu/openvidu-coturn:6.0.0
           name: coturn
           ports:
             - containerPort: 3478
               name: udp-3478
-              protocol: UDP
-            {{- range seq 0 10}}
-            - containerPort: {{add 57001 .}}
-              name: udp-{{add 57001 .}}
-              protocol: UDP
-            {{- end }}
+              protocol: UDP 
+            - containerPort: 57001
+              name: udp-57001
+              protocol: UDP 
+            - containerPort: 57002
+              name: udp-57002
+              protocol: UDP 
+            - containerPort: 57003
+              name: udp-57003
+              protocol: UDP 
+            - containerPort: 57004
+              name: udp-57004
+              protocol: UDP 
+            - containerPort: 57005
+              name: udp-57005
+              protocol: UDP 
+            - containerPort: 57006
+              name: udp-57006
+              protocol: UDP 
+            - containerPort: 57007
+              name: udp-57007
+              protocol: UDP 
+            - containerPort: 57008
+              name: udp-57008
+              protocol: UDP 
+            - containerPort: 57009
+              name: udp-57009
+              protocol: UDP 
+            - containerPort: 57010
+              name: udp-57010
+              protocol: UDP 
+            - containerPort: 57011
+              name: udp-57011
+              protocol: UDP 
       restartPolicy: Always
