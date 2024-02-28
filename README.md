@@ -79,9 +79,9 @@ kubectl adm policy add-scc-to-user anyuid -z vrspace
 kubectl adm policy add-scc-to-user privileged -z vrspace
 
 
-gomplate -f manifest/vrspace/Dockerfile | envsubst | docker build -t vrspace -
+gomplate -f manifest/VRspace/Dockerfile | envsubst | docker build -t vrspace -
 
-gomplate -f manifest/vrspace/vrspace-deployment.yaml | envsubst | kubectl apply -f -
+gomplate -f manifest/VRspace/vrspace-deployment.yaml | envsubst | kubectl apply -f -
 
 
 cat manifest/vrspace/vrspace-route.yaml | envsubst | kubectl apply -f -
