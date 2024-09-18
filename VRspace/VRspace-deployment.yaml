@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vrspace-deployment
+spec:
+  replicas: 2  # レプリカ数を必要に応じて変更
+  selector:
+    matchLabels:
+      app: vrspace
+  template:
+    metadata:
+      labels:
+        app: vrspace
+    spec:
+      containers:
+      - name: vrspace
+        image: gangrif/vrspace:latest  # Dockerイメージを指定
+        ports:
+        - containerPort: 8080  # gangrif/vrspaceのデフォルトポートが8080の場合
