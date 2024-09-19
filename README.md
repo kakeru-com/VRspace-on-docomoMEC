@@ -1,16 +1,23 @@
 # VRspace
 
-環境
-kubernetes
+環境:kubernetes
 
-# 1. kubectl apply
+# 1. git clone
 
+```
+git clone https://github.com/kakeru-com/VRspace-on-kubernetes.git
+```
+
+# 2.change directory
+
+```
+cd $HOME/VRspace-on-kubernetes/VRspace
+```
+
+# 3. kubectl apply
 
 ```
 kubectl apply -f VRspace-deployment.yaml
-```
-
-```
 kubectl apply -f VRspace-service.yaml
  ```
 
@@ -48,3 +55,8 @@ Events:                   <none>
 ```
 curl http://10.240.32.136:8080/babylon/avatar-selection.html
 ```
+
+
+
+
+
