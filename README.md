@@ -5,15 +5,22 @@ kubernetes
 
 # 1. kubectl apply
 
-```kubectl apply -f VRspace-deployment.yaml```
 
-```kubectl apply -f VRspace-service.yaml ```
+```
+kubectl apply -f VRspace-deployment.yaml
+```
+
+```
+kubectl apply -f VRspace-service.yaml
+ ```
 
 # 2. endpoint確認
 
 kubeコマンドでendpointを確認。
 
-```kubectl describe service vrspace-service```
+```
+kubectl describe service vrspace-service
+```
 
 ```nttcom@apn-test-aid:~$ kubectl describe service vrspace-service  
 Name:                     vrspace-service
@@ -38,4 +45,6 @@ Events:                   <none>
 
 # 3. Endpointsのサービスにアクセス
 
-```curl http://10.240.32.136:8080/babylon/avatar-selection.html```
+```
+curl http://10.240.32.136:8080/babylon/avatar-selection.html
+```
