@@ -55,7 +55,7 @@ Events:                   <none>
 ```
 curl http://10.240.32.136:8080/babylon/avatar-selection.html
 ```
-
+![VRSpace Demo](VRspace-demo.gif)
 
 
 
