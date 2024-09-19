@@ -1,90 +1,41 @@
 # VRspace
 
 環境
+kubernetes
 
+# 1. kubectl apply
 
-# 1. LET's Encrypt
+```kubectl apply -f VRspace-deployment.yaml```
 
-wget https://raw.githubusercontent.com/tnozicka/openshift-acme/master/deploy/cluster-wide/clusterrole.yaml
+```kubectl apply -f VRspace-service.yaml ```
 
-wget https://raw.githubusercontent.com/tnozicka/openshift-acme/master/deploy/cluster-wide/serviceaccount.yaml
+# 2. endpoint確認
 
-wget https://raw.githubusercontent.com/tnozicka/openshift-acme/master/deploy/cluster-wide/issuer-letsencrypt-live.yaml
+kubeコマンドでendpointを確認。
 
-wget https://raw.githubusercontent.com/tnozicka/openshift-acme/master/deploy/cluster-wide/deployment.yaml
+```kubectl describe service vrspace-service```
 
-kubectl create -f clusterrole.yaml
+```nttcom@apn-test-aid:~$ kubectl describe service vrspace-service  
+Name:                     vrspace-service
+Namespace:                default
+Labels:                   <none>
+Annotations:              metallb.universe.tf/ip-allocated-from-pool: default
+Selector:                 app=vrspace
+Type:                     LoadBalancer
+IP Family Policy:         SingleStack
+IP Families:              IPv4
+IP:                       10.97.247.55
+IPs:                      10.97.247.55
+LoadBalancer Ingress:     192.168.40.100
+Port:                     <unset>  80/TCP
+TargetPort:               8080/TCP
+NodePort:                 <unset>  32702/TCP
+Endpoints:                10.240.32.136:8080,10.240.32.138:8080
+Session Affinity:         None
+External Traffic Policy:  Cluster
+Events:                   <none>
+```
 
-kubectl create -f serviceaccount.yaml
+# 3. Endpointsのサービスにアクセス
 
-kubectl create -f issuer-letsencrypt-live.yaml
-
-kubectl create -f deployment.yaml
-
-
-# OpenVidu
-
-ビデオ会議や音声チャットなどを有効にするためにはOpenViduの構築が必要です。 まず、以下の環境変数をセットします。
-
-export OPENVIDU_USERNAME=<任意のアカウント名>
-
-export OPENVIDU_SERVER_SECRET=<任意のパスワード>
-
-kubectl create namespace openvidu
-
-kubectl create sa openvidu -n openvidu
-
-kubectl create clusterrolebinding openvidu-cluster-admin --clusterrole=cluster-admin --serviceaccount=openvidu:openvidu
-
-kubectl apply -f manifest/openvidu/redis-deployment.yaml -n openvidu
-
-kubectl apply -f manifest/openvidu/coturn-service.yaml -n openvidu
-
-
-coturnはtype:LoadBalancerのServiceを使用します。 AWS上にdeployする場合、NLBが新規作成され、DNSレコードが更新されるまで1分ほどかかります。
-
-以下の環境変数TURNIPが取得できるまで待ちます。
-
-export TURN_DOMAIN=$(kubectl get svc coturn -o jsonpath='{.status.loadBalancer.ingress[*].hostname}')
-
-export TURNIP=$(kubectl get svc coturn -o jsonpath='{.status.loadBalancer.ingress[*].ip}')
-
-
-export MAILADDR=<your mail address>
-
-export BASE_DOMAIN=<your base domain>
-
-export STUN_LIST=$(echo "$TURNIP:3489" | base64)
-
-export TURN_LIST=$(echo "${OPENVIDU_USERNAME}:${OPENVIDU_SERVER_SECRET}@$TURNIP:3489" | base64)
-
-
-gomplate -f manifest/openvidu/coturn-deployment.yaml | envsubst | kubectl apply -f -
-gomplate -f manifest/openvidu/kms-deployment.yaml | envsubst | kubectl apply -f -
-gomplate -f manifest/openvidu/openvidu-server-deployment.yaml | envsubst | kubectl apply -f -
-
-gomplate -f manifest/openvidu/openvidu-server-route.yaml | envsubst | kubectl apply -f -
-
-export OPENVIDU_SERVER_URL=$(kubectl get route openvidu-server -o jsonpath='{.status.ingress[*].host}')
-
-
-# VRSpace
-
-export VRSPACE_GIT_URL=https://github.com/yd-ono/vrspace
-
-export VRSPACE_SERVER_URL=vrspace.${BASE_DOMAIN}
-
-kubectl create sa vrspace
-kubectl adm policy add-scc-to-user anyuid -z vrspace
-kubectl adm policy add-scc-to-user privileged -z vrspace
-
-
-gomplate -f manifest/VRspace/Dockerfile | envsubst | docker build -t vrspace -
-
-gomplate -f manifest/VRspace/vrspace-deployment.yaml | envsubst | kubectl apply -f -
-
-
-cat manifest/vrspace/vrspace-route.yaml | envsubst | kubectl apply -f -
-
-
-https://${VRSPACE_SERVER_URL}/babylon/avatar-selection.html へアクセスします。
+```curl http://10.240.32.136:8080/babylon/avatar-selection.html```
