@@ -1,6 +1,6 @@
 # VRspace
 
-環境:kubernetes。
+環境:kubernetesで行います。
 
 # 1. git clone
 
