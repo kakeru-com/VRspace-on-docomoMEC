@@ -1,0 +1,13 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: vrspace-service
+  namespace: default
+spec:
+  template:
+    spec:
+      containers:
+        - image: docker.io/kakeru-com/vrspace:latest
+          env:
+            - name: TARGET
+              value: "VR Space Knative Service"
