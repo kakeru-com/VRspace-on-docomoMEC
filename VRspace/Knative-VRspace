@@ -7,7 +7,7 @@ spec:
   template:
     spec:
       containers:
-        - image: docker.io/kakeru-com/vrspace:latest
+        - image: gangrif/vrspace:latest
           env:
             - name: TARGET
               value: "VR Space Knative Service"
