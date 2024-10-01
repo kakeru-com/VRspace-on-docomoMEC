@@ -1,13 +1,17 @@
 apiVersion: serving.knative.dev/v1
 kind: Service
 metadata:
-  name: vrspace-service
-  namespace: default
+  labels:
+    app: ubuntu-desktop-vnc
+  name: ubuntu-desktop-vnc-service
 spec:
   template:
+    metadata:
+      labels:
+        app: ubuntu-desktop-vnc
     spec:
       containers:
-        - image: gangrif/vrspace:latest
-          env:
-            - name: TARGET
-              value: "VR Space Knative Service"
+      - image: dorowu/ubuntu-desktop-lxde-vnc:latest
+        name: ubuntu-desktop-vnc
+        ports:
+        - containerPort: 80
