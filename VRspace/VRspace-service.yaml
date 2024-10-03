@@ -5,7 +5,7 @@ metadata:
 spec:
   type: LoadBalancer  # クラウドプロバイダがロードバランサーを自動的に作成
   ports:
-  - port: 8080
+  - port: 800
     targetPort: 8080  # コンテナのポート（上記Deploymentで指定したポート）
   selector:
     app: vrspace
