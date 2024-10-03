@@ -1,6 +1,7 @@
 # VRspace
 
-環境:kubernetes
+環境:kubernetes.
+
 
 # 1. git clone
 
