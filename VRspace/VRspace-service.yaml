@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: vrspace-service-x
+  name: vrspace-service-xx
 spec:
   type: LoadBalancer  # クラウドプロバイダがロードバランサーを自動的に作成
   ports:
-  - port: 8000
+  - port: 80
     targetPort: 8080  # コンテナのポート（上記Deploymentで指定したポート）
   selector:
     app: vrspace
