@@ -1,0 +1,17 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  labels:
+    app: ubuntu-desktop-vnc
+  name: ubuntu-desktop-vnc-service
+spec:
+  template:
+    metadata:
+      labels:
+        app: ubuntu-desktop-vnc
+    spec:
+      containers:
+      - image: dorowu/ubuntu-desktop-lxde-vnc:latest
+        name: ubuntu-desktop-vnc
+        ports:
+        - containerPort: 80
